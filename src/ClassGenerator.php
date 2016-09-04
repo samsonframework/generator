@@ -321,21 +321,27 @@ class ClassGenerator extends AbstractGenerator
         return $formattedCode;
     }
 
+    protected function buildNamespaceCode(array $formattedCode = []) : array
+    {
+        if ($this->namespace === null) {
+            throw new \InvalidArgumentException('Class namespace should be defined');
+        }
+
+        $formattedCode[] = 'namespace ' . $this->namespace . ';';
+
+        // One empty line after namespace
+        $formattedCode[] = '';
+
+        return $formattedCode;
+    }
+
     /**
      * {@inheritdoc}
      * @throws \InvalidArgumentException
      */
     public function code(int $indentation = 0) : string
     {
-        if ($this->namespace === null) {
-            throw new \InvalidArgumentException('Class namespace should be defined');
-        }
-
-        $formattedCode = ['namespace ' . $this->namespace . ';'];
-
-        // One empty line after namespace
-        $formattedCode[] = '';
-
+        $formattedCode = $this->buildNamespaceCode();
         $formattedCode = $this->buildFileDescriptionCode($formattedCode);
         $formattedCode = $this->buildUsesCode($formattedCode);
         $formattedCode = $this->buildCommentsCode($formattedCode);
