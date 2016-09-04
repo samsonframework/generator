@@ -46,7 +46,7 @@ abstract class AbstractGenerator
     /**
      * Close current generator and return parent.
      *
-     * @return $this|AbstractGenerator
+     * @return $this|AbstractGenerator|ClassGenerator
      */
     public function end() : AbstractGenerator
     {
@@ -86,7 +86,7 @@ abstract class AbstractGenerator
      *
      * @param int $indentation
      *
-     * @return $this|AbstractGenerator
+     * @return $this|AbstractGenerator|ClassGenerator
      */
     public function setIndentation(int $indentation) : AbstractGenerator
     {
