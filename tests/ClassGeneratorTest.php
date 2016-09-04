@@ -448,4 +448,24 @@ PHP;
 
         static::assertEquals($expected, $generated);
     }
+
+    public function testDefConstant()
+    {
+        $generated = $this->classGenerator
+            ->defNamespace('testname\space')
+            ->defConstant('testConst', '', 'TestType', 'Constant description')->end()
+            ->code();
+
+        $expected = <<<'PHP'
+namespace testname\space;
+
+class testClass
+{
+    /** TestType Constant description */
+    const testConst;
+}
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
 }

@@ -140,6 +140,7 @@ class ClassGenerator extends AbstractGenerator
     public function defProperty(string $name, string $type, $value, string $description = null) : PropertyGenerator
     {
         return (new PropertyGenerator($name, $value, $this))
+            ->setIndentation($this->indentation)
             ->increaseIndentation()
             ->defComment()
             ->defVar($type, $description)
@@ -197,7 +198,7 @@ class ClassGenerator extends AbstractGenerator
      */
     public function defMethod(string $name) : MethodGenerator
     {
-        return (new MethodGenerator($name, $this))->increaseIndentation();
+        return (new MethodGenerator($name, $this))->setIndentation($this->indentation)->increaseIndentation();
     }
 
     /**
@@ -222,6 +223,24 @@ class ClassGenerator extends AbstractGenerator
     public function defStaticMethod(string $name) : MethodGenerator
     {
         return $this->defMethod($name)->defStatic();
+    }
+
+    /**
+     * Set class constant.
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return $this|ClassConstantGenerator
+     */
+    public function defConstant(string $name, $value, string $type, string $description) : ClassConstantGenerator
+    {
+        return (new ClassConstantGenerator($name, $value, $this))
+            ->setIndentation($this->indentation)
+            ->increaseIndentation()
+            ->defComment()
+                ->defLine($type.' '.$description)
+            ->end();
     }
 
     /**
@@ -261,6 +280,11 @@ class ClassGenerator extends AbstractGenerator
         $indentationString = $this->indentation($indentation);
         $innerIndentation = $this->indentation(1);
 
+        // Prepend file description if present
+        if ($this->fileDescription !== null) {
+            array_unshift($formattedCode, $this->fileDescription);
+        }
+
         // Add traits
         foreach ($this->traits as $trait) {
             $formattedCode[] = $innerIndentation . 'use ' . $trait . ';';
@@ -271,9 +295,9 @@ class ClassGenerator extends AbstractGenerator
             $formattedCode[] = '';
         }
 
-        // Prepend file description if present
-        if ($this->fileDescription !== null) {
-            array_unshift($formattedCode, $this->fileDescription);
+        // Add constants
+        if (array_key_exists(ClassConstantGenerator::class, $this->generatedCode)) {
+            $formattedCode[] = $this->generatedCode[ClassConstantGenerator::class];
         }
 
         // Add properties
