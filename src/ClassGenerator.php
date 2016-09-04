@@ -38,16 +38,13 @@ class ClassGenerator extends AbstractGenerator
     /** @var string Multi-line file description */
     protected $fileDescription;
 
-    /** @var array Class methods */
-    protected $methods;
-
     /**
      * ClassGenerator constructor.
      *
      * @param string           $className Class name
-     * @param GenericGenerator $parent    Parent generator
+     * @param AbstractGenerator $parent    Parent generator
      */
-    public function __construct(string $className, GenericGenerator $parent = null)
+    public function __construct(string $className, AbstractGenerator $parent = null)
     {
         $this->className = $className;
 
