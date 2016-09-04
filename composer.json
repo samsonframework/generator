@@ -1,24 +1,28 @@
 {
-	"name":"samsonframework/generator",
+    "name": "samsonframework/generator",
     "description": "SamsonFramework code generator",
-    "keywords": ["code", "samsonframework", "generator"],
-    "authors":[
+    "keywords": [
+        "code",
+        "samsonframework",
+        "generator"
+    ],
+    "authors": [
         {
-            "name":"Vitaly Iegorov",
-            "email":"egorov@samsonos.com"
+            "name": "Vitaly Iegorov",
+            "email": "egorov@samsonos.com"
         }
     ],
     "require-dev": {
         "phpunit/phpunit": "5.*"
     },
-	"license":"Open Software License (OSL) v 3.0",
-	"homepage":"http://samsonos.com/",
-    "autoload" : {
+    "license": "Open Software License (OSL) v 3.0",
+    "homepage": "http://samsonos.com/",
+    "autoload": {
         "psr-4": {
             "samsonphp\\generator\\": "src/"
         }
     },
-    "autoload-dev" : {
+    "autoload-dev": {
         "psr-4": {
             "samsonphp\\generator\\tests\\": "tests/"
         }
