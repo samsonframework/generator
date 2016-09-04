@@ -46,7 +46,7 @@ abstract class AbstractGenerator
     /**
      * Close current generator and return parent.
      *
-     * @return $this|AbstractGenerator|ClassGenerator
+     * @return AbstractGenerator|ClassGenerator|FunctionGenerator|MethodGenerator
      */
     public function end() : AbstractGenerator
     {
