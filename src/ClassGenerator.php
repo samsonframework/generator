@@ -243,6 +243,84 @@ class ClassGenerator extends AbstractGenerator
             ->end();
     }
 
+    protected function buildUsesCode(array $formattedCode) : array
+    {
+        // Add uses
+        foreach ($this->uses as $use) {
+            $formattedCode[] = 'use ' . $use . ';';
+        }
+
+        // One empty line after uses if we have them
+        if (count($this->uses)) {
+            $formattedCode[] = '';
+        }
+
+        return $formattedCode;
+    }
+
+    protected function buildCommentsCode(array $formattedCode) : array
+    {
+        // Add comments
+        if (array_key_exists(CommentsGenerator::class, $this->generatedCode)) {
+            $formattedCode[] = $this->generatedCode[CommentsGenerator::class];
+        }
+
+        return $formattedCode;
+    }
+
+    protected function buildTraitsCode(array $formattedCode, string $innerIndentation) : array
+    {
+        // Add traits
+        foreach ($this->traits as $trait) {
+            $formattedCode[] = $innerIndentation . 'use ' . $trait . ';';
+        }
+
+        // One empty line after traits if we have them
+        if (count($this->traits)) {
+            $formattedCode[] = '';
+        }
+
+        return $formattedCode;
+    }
+
+    protected function buildFileDescriptionCode(array $formattedCode) : array
+    {
+        // Prepend file description if present
+        if ($this->fileDescription !== null) {
+            array_unshift($formattedCode, $this->fileDescription);
+        }
+
+        return $formattedCode;
+    }
+
+    protected function buildConstantsCode(array $formattedCode) : array
+    {
+        // Add constants
+        if (array_key_exists(ClassConstantGenerator::class, $this->generatedCode)) {
+            $formattedCode[] = $this->generatedCode[ClassConstantGenerator::class];
+        }
+
+        return $formattedCode;
+    }
+
+    protected function buildPropertiesCode(array $formattedCode) : array
+    {
+        if (array_key_exists(PropertyGenerator::class, $this->generatedCode)) {
+            $formattedCode[] = $this->generatedCode[PropertyGenerator::class];
+        }
+
+        return $formattedCode;
+    }
+
+    protected function buildMethodsCode(array $formattedCode) : array
+    {
+        if (array_key_exists(MethodGenerator::class, $this->generatedCode)) {
+            $formattedCode[] = $this->generatedCode[MethodGenerator::class];
+        }
+
+        return $formattedCode;
+    }
+
     /**
      * {@inheritdoc}
      * @throws \InvalidArgumentException
@@ -258,20 +336,9 @@ class ClassGenerator extends AbstractGenerator
         // One empty line after namespace
         $formattedCode[] = '';
 
-        // Add uses
-        foreach ($this->uses as $use) {
-            $formattedCode[] = 'use ' . $use . ';';
-        }
-
-        // One empty line after uses if we have them
-        if (count($this->uses)) {
-            $formattedCode[] = '';
-        }
-
-        // Add comments
-        if (array_key_exists(CommentsGenerator::class, $this->generatedCode)) {
-            $formattedCode[] = $this->generatedCode[CommentsGenerator::class];
-        }
+        $formattedCode = $this->buildFileDescriptionCode($formattedCode);
+        $formattedCode = $this->buildUsesCode($formattedCode);
+        $formattedCode = $this->buildCommentsCode($formattedCode);
 
         // Add previously generated code
         $formattedCode[] = $this->buildDefinition();
@@ -280,35 +347,10 @@ class ClassGenerator extends AbstractGenerator
         $indentationString = $this->indentation($indentation);
         $innerIndentation = $this->indentation(1);
 
-        // Prepend file description if present
-        if ($this->fileDescription !== null) {
-            array_unshift($formattedCode, $this->fileDescription);
-        }
-
-        // Add traits
-        foreach ($this->traits as $trait) {
-            $formattedCode[] = $innerIndentation . 'use ' . $trait . ';';
-        }
-
-        // One empty line after traits if we have them
-        if (count($this->traits)) {
-            $formattedCode[] = '';
-        }
-
-        // Add constants
-        if (array_key_exists(ClassConstantGenerator::class, $this->generatedCode)) {
-            $formattedCode[] = $this->generatedCode[ClassConstantGenerator::class];
-        }
-
-        // Add properties
-        if (array_key_exists(PropertyGenerator::class, $this->generatedCode)) {
-            $formattedCode[] = $this->generatedCode[PropertyGenerator::class];
-        }
-
-        // Add properties
-        if (array_key_exists(MethodGenerator::class, $this->generatedCode)) {
-            $formattedCode[] = $this->generatedCode[MethodGenerator::class];
-        }
+        $formattedCode = $this->buildTraitsCode($formattedCode, $innerIndentation);
+        $formattedCode = $this->buildConstantsCode($formattedCode);
+        $formattedCode = $this->buildPropertiesCode($formattedCode);
+        $formattedCode = $this->buildMethodsCode($formattedCode);
 
         $formattedCode[] = '}';
 
