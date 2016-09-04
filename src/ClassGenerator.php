@@ -294,7 +294,7 @@ class ClassGenerator extends AbstractGenerator
     }
 
     /**
-     * Build function definition.
+     * Build class definition.
      *
      * @return string Function definition
      */
