@@ -33,15 +33,19 @@ trait CodeTrait
      * Build arguments list with types.
      *
      * @param array $arguments Arguments collection
+     * @param array $defaults Arguments default values collection
      *
      * @return string Arguments list
      */
-    protected function buildArguments(array $arguments) : string
+    protected function buildArguments(array $arguments, array $defaults = []) : string
     {
         $argumentsString = [];
+        $defaults = array_filter($defaults);
         foreach ($arguments as $argumentName => $argumentType) {
             // Group name with type
-            $argumentsString[] = ($argumentType !== null ? $argumentType . ' ' : '') . '$' . $argumentName;
+            $argumentsString[] = ($argumentType !== null ? $argumentType . ' ' : '') .
+                '$' . $argumentName .
+                (array_key_exists($argumentName, $defaults) ? ' = ' . $defaults[$argumentName] : '');
         }
 
         return implode(', ', $argumentsString);

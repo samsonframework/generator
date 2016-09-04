@@ -110,4 +110,29 @@ PHP;
 
         static::assertEquals($expected, $generated);
     }
+
+    public function testDefFunctionWithMultipleTypedArgumentAndDefaultValue()
+    {
+        $code = 'echo(\'test\')';
+        $generated = $this->generator
+            ->defArgument('testArgument', 'array')
+            ->defArgument('testArgument2', 'int', 'Integer', 1)
+            ->defArgument('testArgument3', 'TestType')
+            ->defLine($code)
+            ->defComment()->end()
+            ->code();
+        $expected = <<<'PHP'
+/**
+ * @param array $testArgument 
+ * @param int $testArgument2 Integer
+ * @param TestType $testArgument3 
+ */
+function testFunction(array $testArgument, int $testArgument2 = 1, TestType $testArgument3)
+{
+    echo('test')
+}
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
 }

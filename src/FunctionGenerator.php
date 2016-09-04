@@ -23,6 +23,9 @@ class FunctionGenerator extends AbstractGenerator
     /** @var array Collection of function arguments descriptions */
     protected $argumentDescriptions = [];
 
+    /** @var array Collection of function arguments default values */
+    protected $argumentDefaults = [];
+
     /**
      * FunctionGenerator constructor.
      *
@@ -42,13 +45,15 @@ class FunctionGenerator extends AbstractGenerator
      * @param string      $name        Argument name
      * @param string|null $type        Argument type
      * @param string      $description Argument description
+     * @param mixed      $defaultValue Argument default value
      *
      * @return FunctionGenerator
      */
-    public function defArgument(string $name, string $type = null, string $description = null) : FunctionGenerator
+    public function defArgument(string $name, string $type = null, string $description = null, $defaultValue = null) : FunctionGenerator
     {
         $this->arguments[$name] = $type;
         $this->argumentDescriptions[$name] = $description;
+        $this->argumentDefaults[$name] = $defaultValue;
 
         return $this;
     }
@@ -61,7 +66,7 @@ class FunctionGenerator extends AbstractGenerator
         $innerIndentation = $this->indentation(1);
 
         $formattedCode = [
-            $this->buildDefinition() . '(' . $this->buildArguments($this->arguments) . ')',
+            $this->buildDefinition() . '(' . $this->buildArguments($this->arguments, $this->argumentDefaults) . ')',
             '{'
         ];
 
