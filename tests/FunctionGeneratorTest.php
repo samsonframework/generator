@@ -94,12 +94,12 @@ PHP;
 
     public function testDefReturnTypeFunction()
     {
-        $code = 'echo(\'test\')';
+        $code = 'return [];';
         $generated = $this->generator->defReturnType('array')->defLine($code)->code();
         $expected = <<<'PHP'
 function testFunction() : array
 {
-    echo('test')
+    return [];
 }
 PHP;
 
