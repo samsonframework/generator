@@ -195,7 +195,7 @@ PHP;
     {
         $generated = $this->classGenerator
             ->defNamespace('testname\space')
-            ->defProperty('testProperty', 'TestType', '')->end()
+            ->defProperty('testProperty', 'TestType')->end()
             ->code();
 
         $expected = <<<'PHP'
@@ -215,7 +215,7 @@ PHP;
     {
         $generated = $this->classGenerator
             ->defNamespace('testname\space')
-            ->defProperty('testProperty', 'TestType', '', 'Property description')->end()
+            ->defProperty('testProperty', 'TestType', null, 'Property description')->end()
             ->code();
 
         $expected = <<<'PHP'
@@ -235,7 +235,7 @@ PHP;
     {
         $generated = $this->classGenerator
             ->defNamespace('testname\space')
-            ->defProtectedProperty('testProperty', 'TestType', '', 'Property description')->end()
+            ->defProtectedProperty('testProperty', 'TestType', null, 'Property description')->end()
             ->code();
 
         $expected = <<<'PHP'
@@ -255,7 +255,7 @@ PHP;
     {
         $generated = $this->classGenerator
             ->defNamespace('testname\space')
-            ->defStaticProperty('testProperty', 'TestType', '', 'Property description')->end()
+            ->defStaticProperty('testProperty', 'TestType', null, 'Property description')->end()
             ->code();
 
         $expected = <<<'PHP'
@@ -275,7 +275,7 @@ PHP;
     {
         $generated = $this->classGenerator
             ->defNamespace('testname\space')
-            ->defProtectedStaticProperty('testProperty', 'TestType', '', 'Property description')->end()
+            ->defProtectedStaticProperty('testProperty', 'TestType', null, 'Property description')->end()
             ->code();
 
         $expected = <<<'PHP'
@@ -463,6 +463,26 @@ class testClass
 {
     /** TestType Constant description */
     const testConst;
+}
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
+
+    public function testDefPropertyWithStringValue()
+    {
+        $generated = $this->classGenerator
+            ->defNamespace('testname\space')
+            ->defProperty('testProperty', 'TestType', 'I am string', 'Property description')->end()
+            ->code();
+
+        $expected = <<<'PHP'
+namespace testname\space;
+
+class testClass
+{
+    /** @var TestType Property description */
+    public $testProperty = 'I am string';
 }
 PHP;
 

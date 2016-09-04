@@ -30,9 +30,22 @@ class PropertyGenerator extends AbstractGenerator
     public function __construct(string $name, $value = null, AbstractGenerator $parent = null)
     {
         $this->name = $name;
-        $this->value = $value;
+        $this->value = $this->parseValue($value);
 
         parent::__construct($parent);
+    }
+
+    /**
+     * Set property value.
+     *
+     * @param mixed $value Value
+     * @return $this|PropertyGenerator
+     */
+    public function defValue($value) : PropertyGenerator
+    {
+        $this->value = $this->parseValue($value);
+
+        return $this;
     }
 
     /**
@@ -46,6 +59,7 @@ class PropertyGenerator extends AbstractGenerator
             . ($this->isStatic ? 'static ' : '')
             . '$'
             . $this->name
+            . ($this->value !== null ? ' = ' . $this->parseValue($this->value) : '')
             . ';';
 
         // Add comments

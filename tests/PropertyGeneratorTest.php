@@ -71,4 +71,94 @@ PHP;
 
         static::assertEquals($expected, $generated);
     }
+
+    public function testPropertyWithStringValue()
+    {
+        $generated = $this->generator->defPrivate()
+            ->defComment()
+            ->defVar('testType', 'Test description')
+            ->end()
+            ->defValue('I am string')
+            ->code();
+
+        $expected = <<<'PHP'
+/** @var testType Test description */
+private $testProperty = 'I am string';
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
+
+    public function testPropertyWithNullValue()
+    {
+        $generated = $this->generator->defPrivate()
+            ->defComment()
+            ->defVar('testType', 'Test description')
+            ->end()
+            ->defValue(null)
+            ->code();
+
+        $expected = <<<'PHP'
+/** @var testType Test description */
+private $testProperty;
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
+
+    public function testPropertyWithIntValue()
+    {
+        $generated = $this->generator->defPrivate()
+            ->defComment()
+            ->defVar('testType', 'Test description')
+            ->end()
+            ->defValue(1)
+            ->code();
+
+        $expected = <<<'PHP'
+/** @var testType Test description */
+private $testProperty = 1;
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
+
+    public function testPropertyWithFloatValue()
+    {
+        $generated = $this->generator->defPrivate()
+            ->defComment()
+            ->defVar('testType', 'Test description')
+            ->end()
+            ->defValue(1.4)
+            ->code();
+
+        $expected = <<<'PHP'
+/** @var testType Test description */
+private $testProperty = 1.4;
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
+
+    public function testPropertyWithArrayValue()
+    {
+        $generated = $this->generator->defPrivate()
+            ->defComment()
+            ->defVar('testType', 'Test description')
+            ->end()
+            ->defValue([1 => ['test' => 'PropertyGeneratorTest::class'], 'catch' => 2.33])
+            ->code();
+
+        $expected = <<<'PHP'
+/** @var testType Test description */
+private $testProperty = [
+    1 => [
+        'test' => PropertyGeneratorTest::class,
+    ],
+    'catch' => 2.33,
+];
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
 }

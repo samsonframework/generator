@@ -137,7 +137,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return PropertyGenerator
      */
-    public function defProperty(string $name, string $type, $value, string $description = null) : PropertyGenerator
+    public function defProperty(string $name, string $type, $value = null, string $description = null) : PropertyGenerator
     {
         return (new PropertyGenerator($name, $value, $this))
             ->setIndentation($this->indentation)

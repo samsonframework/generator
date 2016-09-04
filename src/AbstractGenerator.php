@@ -44,9 +44,21 @@ abstract class AbstractGenerator
     }
 
     /**
+     * Decrease indentation.
+     *
+     * @return $this|AbstractGenerator
+     */
+    public function decreaseIndentation() : AbstractGenerator
+    {
+        $this->indentation--;
+
+        return $this;
+    }
+
+    /**
      * Close current generator and return parent.
      *
-     * @return AbstractGenerator|ClassGenerator|FunctionGenerator|MethodGenerator
+     * @return AbstractGenerator|ClassGenerator|FunctionGenerator|MethodGenerator|PropertyGenerator|ClassConstantGenerator
      */
     public function end() : AbstractGenerator
     {
@@ -105,5 +117,64 @@ abstract class AbstractGenerator
     protected function indentation(int $indentation = 0) : string
     {
         return implode('', $indentation > 0 ? array_fill(0, $indentation, '    ') : []);
+    }
+
+    /**
+     * Generate correct value.
+     *
+     * Method handles arrays, numerics, strings and constants.
+     *
+     * @param mixed $value Value
+     *
+     * @return mixed Value
+     */
+    protected function parseValue($value)
+    {
+        // If item value is array - recursion
+        if (is_array($value)) {
+            return $this->arrayValue($value);
+        } elseif (is_numeric($value) || is_float($value)) {
+            return $value;
+        } elseif ($value === null) {
+            return null;
+        } else {
+            try { // Try to evaluate
+                eval('$value2 = ' . $value . ';');
+                return $value;
+            } catch (\Throwable $e) { // Consider it as a string
+                return '\''.$value.'\'';
+            }
+        }
+    }
+
+    /**
+     * Get array values definition.
+     *
+     * @param array $items Array key-value pairs collection
+     *
+     * @return string Array value definition
+     */
+    protected function arrayValue(array $items = array())
+    {
+        $result = ['['];
+        if (count($items)) {
+            $this->increaseIndentation();
+
+            // Iterate array items
+            foreach ($items as $key => $value) {
+                // Start array key definition
+                $result[] = "\n"
+                    . $this->indentation($this->indentation)
+                    . $this->parseValue($key)
+                    . ' => '
+                    . $this->parseValue($value)
+                    . ',';
+            }
+
+            $this->decreaseIndentation();
+        }
+        $result[] = "\n".$this->indentation($this->indentation).']';
+
+        return implode('', $result);
     }
 }
