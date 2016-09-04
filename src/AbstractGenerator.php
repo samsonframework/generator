@@ -22,7 +22,7 @@ abstract class AbstractGenerator
     protected $indentation = 0;
 
     /**
-     * MethodGenerator constructor.
+     * AbstractGenerator constructor.
      *
      * @param AbstractGenerator $parent Parent generator
      */
