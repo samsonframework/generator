@@ -6,7 +6,7 @@
 namespace tests;
 
 use PHPUnit\Framework\TestCase;
-use samsonphp\generator\ClassConstantGenerator;
+use samsonframework\generator\ClassConstantGenerator;
 
 /**
  * Class ClassConstantGeneratorTest

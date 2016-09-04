@@ -6,7 +6,7 @@
 namespace tests;
 
 use PHPUnit\Framework\TestCase;
-use samsonphp\generator\FunctionGenerator;
+use samsonframework\generator\FunctionGenerator;
 
 /**
  * Class GenericGeneratorTest

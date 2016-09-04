@@ -3,7 +3,7 @@
  * Created by Vitaly Iegorov <egorov@samsonos.com>.
  * on 04.09.16 at 14:30
  */
-namespace samsonphp\generator;
+namespace samsonframework\generator;
 
 /**
  * Class TraitGenerator

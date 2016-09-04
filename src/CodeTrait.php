@@ -3,7 +3,7 @@
  * Created by Vitaly Iegorov <egorov@samsonos.com>.
  * on 04.09.16 at 10:13
  */
-namespace samsonphp\generator;
+namespace samsonframework\generator;
 
 /**
  * Trait for generators that can generate internal code.

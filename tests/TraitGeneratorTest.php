@@ -6,7 +6,7 @@
 namespace tests;
 
 use PHPUnit\Framework\TestCase;
-use samsonphp\generator\TraitGenerator;
+use samsonframework\generator\TraitGenerator;
 
 /**
  * Class TraitGeneratorTest

@@ -6,7 +6,7 @@
 namespace tests;
 
 use PHPUnit\Framework\TestCase;
-use samsonphp\generator\CommentsGenerator;
+use samsonframework\generator\CommentsGenerator;
 
 /**
  * Class GenericGeneratorTest

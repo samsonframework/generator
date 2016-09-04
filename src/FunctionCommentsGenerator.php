@@ -3,7 +3,7 @@
  * Created by Vitaly Iegorov <egorov@samsonos.com>.
  * on 04.09.16 at 10:43
  */
-namespace samsonphp\generator;
+namespace samsonframework\generator;
 
 /**
  * Class FunctionCommentsGenerator

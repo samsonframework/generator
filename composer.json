@@ -19,12 +19,12 @@
     "homepage": "http://samsonos.com/",
     "autoload": {
         "psr-4": {
-            "samsonphp\\generator\\": "src/"
+            "samsonframework\\generator\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "samsonphp\\generator\\tests\\": "tests/"
+            "samsonframework\\generator\\tests\\": "tests/"
         }
     },
     "extra": {

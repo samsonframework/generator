@@ -6,7 +6,7 @@
 namespace samsonframework\generator\tests;
 
 use PHPUnit\Framework\TestCase;
-use samsonphp\generator\PropertyGenerator;
+use samsonframework\generator\PropertyGenerator;
 
 /**
  * Class PropertyGeneratorTest

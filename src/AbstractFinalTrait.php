@@ -3,7 +3,7 @@
  * Created by Vitaly Iegorov <egorov@samsonos.com>.
  * on 04.09.16 at 12:07
  */
-namespace samsonphp\generator;
+namespace samsonframework\generator;
 
 /**
  * Class AbstractFinalTrait

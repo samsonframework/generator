@@ -3,7 +3,7 @@
  * Created by Vitaly Iegorov <egorov@samsonos.com>.
  * on 03.09.16 at 13:02
  */
-namespace samsonphp\generator;
+namespace samsonframework\generator;
 
 /**
  * Comments block generator.

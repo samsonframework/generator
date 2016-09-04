@@ -3,7 +3,7 @@
  * Created by Vitaly Iegorov <egorov@samsonos.com>.
  * on 03.09.16 at 11:30
  */
-namespace samsonphp\generator;
+namespace samsonframework\generator;
 
 /**
  * Class method generation class.

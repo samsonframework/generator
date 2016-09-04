@@ -6,7 +6,7 @@
 namespace tests;
 
 use PHPUnit\Framework\TestCase;
-use samsonphp\generator\ClassGenerator;
+use samsonframework\generator\ClassGenerator;
 
 /**
  * Class ClassGeneratorTest
