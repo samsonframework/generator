@@ -12,7 +12,7 @@ namespace samsonframework\generator;
  */
 abstract class AbstractGenerator
 {
-    /** @var GenericGenerator Parent class generator */
+    /** @var AbstractGenerator Parent class generator */
     protected $parent;
 
     /** @var array Generated code grouped by generator class name */
@@ -24,7 +24,7 @@ abstract class AbstractGenerator
     /**
      * MethodGenerator constructor.
      *
-     * @param GenericGenerator $parent Parent generator
+     * @param AbstractGenerator $parent Parent generator
      */
     public function __construct(AbstractGenerator $parent = null)
     {
@@ -34,7 +34,7 @@ abstract class AbstractGenerator
     /**
      * Increase indentation.
      *
-     * @return $this
+     * @return $this|AbstractGenerator
      */
     public function increaseIndentation() : AbstractGenerator
     {
@@ -46,7 +46,7 @@ abstract class AbstractGenerator
     /**
      * Close current generator and return parent.
      *
-     * @return AbstractGenerator Parent
+     * @return $this|AbstractGenerator
      */
     public function end() : AbstractGenerator
     {
@@ -86,7 +86,7 @@ abstract class AbstractGenerator
      *
      * @param int $indentation
      *
-     * @return $this
+     * @return $this|AbstractGenerator
      */
     public function setIndentation(int $indentation) : AbstractGenerator
     {
