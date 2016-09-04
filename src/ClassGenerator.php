@@ -288,9 +288,7 @@ class ClassGenerator extends AbstractGenerator
 
         $formattedCode[] = '}';
 
-        $code = implode("\n" . $indentationString, $formattedCode);
-
-        return $code;
+        return implode("\n" . $indentationString, $formattedCode);
     }
 
     /**
