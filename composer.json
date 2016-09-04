@@ -1,7 +1,7 @@
 {
-	"name":"samsonphp/generator",
-    "description": "SamsonPHP code generator",
-    "keywords": ["code", "samsonphp", "generator"],
+	"name":"samsonframework/generator",
+    "description": "SamsonFramework code generator",
+    "keywords": ["code", "samsonframework", "generator"],
     "authors":[
         {
             "name":"Vitaly Iegorov",
@@ -22,6 +22,5 @@
         "psr-4": {
             "samsonphp\\generator\\tests\\": "tests/"
         }
-    },
-    "extra": { "samson_module_ignore": "1" }
+    }
 }
