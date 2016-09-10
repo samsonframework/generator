@@ -4,7 +4,7 @@ SamsonFramework code generation implementation
 
 [![Latest Stable Version](https://poser.pugx.org/samsonframework/generator/v/stable.svg)](https://packagist.org/packages/samsonframework/generator)
 [![Build Status](https://scrutinizer-ci.com/g/samsonframework/generator/badges/build.png?b=master)](https://scrutinizer-ci.com/g/samsonframework/generator/build-status/master)
-[![Code Coverage](https://scrutinizer-ci.com/g/samsonframework/generator/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/samsonframework/generator/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/samsonframework/generator/badge.svg?branch=master)](https://coveralls.io/github/samsonframework/generator?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samsonframework/generator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samsonframework/generator/?branch=master)
 [![Code Climate](https://codeclimate.com/github/samsonframework/generator/badges/gpa.svg)](https://codeclimate.com/github/samsonframework/generator)
 [![Total Downloads](https://poser.pugx.org/samsonframework/generator/downloads.svg)](https://packagist.org/packages/samsonframework/generator)
