@@ -7,6 +7,7 @@ SamsonFramework code generation implementation
 [![Code Coverage](https://scrutinizer-ci.com/g/samsonframework/generator/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/samsonframework/generator/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samsonframework/generator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samsonframework/generator/?branch=master) 
 [![Total Downloads](https://poser.pugx.org/samsonframework/generator/downloads.svg)](https://packagist.org/packages/samsonframework/generator)
+[![StyleCI](https://styleci.io/repos/67337167/shield)](https://styleci.io/repos/67337167)
 [![Stories in Ready](https://badge.waffle.io/samsonframework/generator.png?label=ready&title=Ready)](https://waffle.io/samsonframework/generator)
 
 ##Documentation
