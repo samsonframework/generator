@@ -7,6 +7,7 @@ namespace tests;
 
 use PHPUnit\Framework\TestCase;
 use samsonframework\generator\ClassGenerator;
+use samsonframework\generator\exception\ClassNameNotFoundException;
 
 /**
  * Class ClassGeneratorTest
@@ -491,7 +492,6 @@ PHP;
 
     public function testDefClassParent()
     {
-
         $classGenerator = new ClassGenerator('testClass');
         $generated = $classGenerator
             ->defNamespace('testname\space')
@@ -511,7 +511,6 @@ PHP;
 
     public function testDefClassImplementsOneInterface()
     {
-
         $classGenerator = new ClassGenerator('testClass');
         $generated = $classGenerator
             ->defNamespace('testname\space')
@@ -531,7 +530,6 @@ PHP;
 
     public function testDefClassImplementsManyInterface()
     {
-
         $classGenerator = new ClassGenerator('testClass');
         $generated = $classGenerator
             ->defNamespace('testname\space')
@@ -553,7 +551,6 @@ PHP;
 
     public function testDefClassImplementsManyInterfaceWithExtends()
     {
-
         $classGenerator = new ClassGenerator('testClass');
         $generated = $classGenerator
             ->defNamespace('testname\space')
@@ -576,7 +573,6 @@ PHP;
 
     public function testDefUsesWithAsOperator()
     {
-
         $classGenerator = new ClassGenerator('testClass');
         $generated = $classGenerator
             ->defNamespace('testname\space')
@@ -589,6 +585,34 @@ namespace testname\space;
 
 use \testname\space1\UsefulClass as VeryUsefulClass;
 use \testname\space2\SimpleClass;
+
+class testClass
+{
+}
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
+
+    public function testDefClassNameNotFoundException()
+    {
+        $this->expectException(ClassNameNotFoundException::class);
+
+        (new ClassGenerator())
+            ->defNamespace('\test\space')
+            ->code();
+    }
+
+    public function testDefDefClassName()
+    {
+        $classGenerator = new ClassGenerator();
+        $generated = $classGenerator
+            ->defName('testClass')
+            ->defNamespace('\test\space')
+            ->code();
+
+        $expected = <<<'PHP'
+namespace \test\space;
 
 class testClass
 {
