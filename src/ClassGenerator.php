@@ -5,6 +5,8 @@
  */
 namespace samsonframework\generator;
 
+use samsonframework\generator\exception\ClassNameNotFoundException;
+
 /**
  * Class generator class.
  *
@@ -26,11 +28,17 @@ class ClassGenerator extends AbstractGenerator
     /** @var string Class name */
     protected $className;
 
+    /** @var string Parent class name */
+    protected $parentClassName;
+
     /** @var string Class namespace */
     protected $namespace;
 
     /** @var array Collection of class uses */
     protected $uses = [];
+
+    /** @var array Collection of class interfaces */
+    protected $interfaces = [];
 
     /** @var array Collection of class used traits */
     protected $traits = [];
@@ -44,7 +52,7 @@ class ClassGenerator extends AbstractGenerator
      * @param string           $className Class name
      * @param AbstractGenerator $parent    Parent generator
      */
-    public function __construct(string $className, AbstractGenerator $parent = null)
+    public function __construct(string $className = null, AbstractGenerator $parent = null)
     {
         $this->className = $className;
 
@@ -85,15 +93,63 @@ class ClassGenerator extends AbstractGenerator
     }
 
     /**
-     * Set class use.
+     * Set class name.
      *
-     * @param string $use Use class name
+     * @param string $className
      *
      * @return ClassGenerator
      */
-    public function defUse(string $use) : ClassGenerator
+    public function defName(string $className) : ClassGenerator
     {
-        $this->uses[] = $use;
+        $this->className = $className;
+
+        return $this;
+    }
+
+    /**
+     * Set class use.
+     *
+     * @param string $use Use class name
+     * @param string $alias Use class name
+     *
+     * @return ClassGenerator
+     */
+    public function defUse(string $use, string $alias = null) : ClassGenerator
+    {
+        // Store the alias of class
+        if ($alias) {
+            $this->uses[$alias] = $use;
+        } else {
+            $this->uses[] = $use;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set parent class.
+     *
+     * @param string $className Parent class name
+     *
+     * @return ClassGenerator
+     */
+    public function defExtends(string $className) : ClassGenerator
+    {
+        $this->parentClassName = $className;
+
+        return $this;
+    }
+
+    /**
+     * Set implements interfaces.
+     *
+     * @param string $interfaceName Interface name
+     *
+     * @return ClassGenerator
+     */
+    public function defImplements(string $interfaceName) : ClassGenerator
+    {
+        $this->interfaces[] = $interfaceName;
 
         return $this;
     }
@@ -246,8 +302,8 @@ class ClassGenerator extends AbstractGenerator
     protected function buildUsesCode(array $formattedCode) : array
     {
         // Add uses
-        foreach ($this->uses as $use) {
-            $formattedCode[] = 'use ' . $use . ';';
+        foreach ($this->uses as $alias => $use) {
+            $formattedCode[] = 'use ' . $use . (is_string($alias) ? ' as ' . $alias : '') . ';';
         }
 
         // One empty line after uses if we have them
@@ -338,9 +394,14 @@ class ClassGenerator extends AbstractGenerator
     /**
      * {@inheritdoc}
      * @throws \InvalidArgumentException
+     * @throws ClassNameNotFoundException
      */
     public function code(int $indentation = 0) : string
     {
+        if (!$this->className) {
+            throw new ClassNameNotFoundException('Class name should be defined');
+        }
+
         $formattedCode = $this->buildNamespaceCode();
         $formattedCode = $this->buildFileDescriptionCode($formattedCode);
         $formattedCode = $this->buildUsesCode($formattedCode);
@@ -373,6 +434,8 @@ class ClassGenerator extends AbstractGenerator
         return ($this->isFinal ? 'final ' : '') .
         ($this->isAbstract ? 'abstract ' : '') .
         'class ' .
-        $this->className;
+        $this->className .
+        ($this->parentClassName ? ' extends ' . $this->parentClassName : '') .
+        (count($this->interfaces) ? rtrim(' implements ' . implode(', ', $this->interfaces), ', ') : '');
     }
 }

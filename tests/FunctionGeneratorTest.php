@@ -92,6 +92,20 @@ PHP;
         static::assertEquals($expected, $generated);
     }
 
+    public function testDefReturnTypeFunction()
+    {
+        $code = 'return [];';
+        $generated = $this->generator->defReturnType('array')->defLine($code)->code();
+        $expected = <<<'PHP'
+function testFunction() : array
+{
+    return [];
+}
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
+
     public function testDefFunctionWithMultipleTypedArgument()
     {
         $code = 'echo(\'test\')';

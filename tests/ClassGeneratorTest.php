@@ -7,6 +7,7 @@ namespace tests;
 
 use PHPUnit\Framework\TestCase;
 use samsonframework\generator\ClassGenerator;
+use samsonframework\generator\exception\ClassNameNotFoundException;
 
 /**
  * Class ClassGeneratorTest
@@ -483,6 +484,138 @@ class testClass
 {
     /** @var TestType Property description */
     public $testProperty = 'I am string';
+}
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
+
+    public function testDefClassParent()
+    {
+        $classGenerator = new ClassGenerator('testClass');
+        $generated = $classGenerator
+            ->defNamespace('testname\space')
+            ->defExtends('ParentClass')
+            ->code();
+
+        $expected = <<<'PHP'
+namespace testname\space;
+
+class testClass extends ParentClass
+{
+}
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
+
+    public function testDefClassImplementsOneInterface()
+    {
+        $classGenerator = new ClassGenerator('testClass');
+        $generated = $classGenerator
+            ->defNamespace('testname\space')
+            ->defImplements('FirstInterface')
+            ->code();
+
+        $expected = <<<'PHP'
+namespace testname\space;
+
+class testClass implements FirstInterface
+{
+}
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
+
+    public function testDefClassImplementsManyInterface()
+    {
+        $classGenerator = new ClassGenerator('testClass');
+        $generated = $classGenerator
+            ->defNamespace('testname\space')
+            ->defImplements('FirstInterface')
+            ->defImplements('SecondInterface')
+            ->defImplements('ThirdInterface')
+            ->code();
+
+        $expected = <<<'PHP'
+namespace testname\space;
+
+class testClass implements FirstInterface, SecondInterface, ThirdInterface
+{
+}
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
+
+    public function testDefClassImplementsManyInterfaceWithExtends()
+    {
+        $classGenerator = new ClassGenerator('testClass');
+        $generated = $classGenerator
+            ->defNamespace('testname\space')
+            ->defExtends('ParentClass')
+            ->defImplements('FirstInterface')
+            ->defImplements('SecondInterface')
+            ->defImplements('ThirdInterface')
+            ->code();
+
+        $expected = <<<'PHP'
+namespace testname\space;
+
+class testClass extends ParentClass implements FirstInterface, SecondInterface, ThirdInterface
+{
+}
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
+
+    public function testDefUsesWithAsOperator()
+    {
+        $classGenerator = new ClassGenerator('testClass');
+        $generated = $classGenerator
+            ->defNamespace('testname\space')
+            ->defUse('\testname\space1\UsefulClass', 'VeryUsefulClass')
+            ->defUse('\testname\space2\SimpleClass')
+            ->code();
+
+        $expected = <<<'PHP'
+namespace testname\space;
+
+use \testname\space1\UsefulClass as VeryUsefulClass;
+use \testname\space2\SimpleClass;
+
+class testClass
+{
+}
+PHP;
+
+        static::assertEquals($expected, $generated);
+    }
+
+    public function testDefClassNameNotFoundException()
+    {
+        $this->expectException(ClassNameNotFoundException::class);
+
+        (new ClassGenerator())
+            ->defNamespace('\test\space')
+            ->code();
+    }
+
+    public function testDefDefClassName()
+    {
+        $classGenerator = new ClassGenerator();
+        $generated = $classGenerator
+            ->defName('testClass')
+            ->defNamespace('\test\space')
+            ->code();
+
+        $expected = <<<'PHP'
+namespace \test\space;
+
+class testClass
+{
 }
 PHP;
 

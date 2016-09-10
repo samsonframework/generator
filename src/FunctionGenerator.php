@@ -26,6 +26,9 @@ class FunctionGenerator extends AbstractGenerator
     /** @var array Collection of function arguments default values */
     protected $argumentDefaults = [];
 
+    /** @var string Return type hint */
+    protected $returnType;
+
     /**
      * FunctionGenerator constructor.
      *
@@ -59,14 +62,31 @@ class FunctionGenerator extends AbstractGenerator
     }
 
     /**
+     * Set return value type
+     *
+     * @param string|null $type Return type hint
+     *
+     * @return FunctionGenerator
+     */
+    public function defReturnType(string $type) : FunctionGenerator
+    {
+        $this->returnType = $type;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function code(int $indentation = 0) : string
     {
         $innerIndentation = $this->indentation(1);
 
+        // Get return type code
+        $returnType = $this->returnType ? ' : ' . $this->returnType : '';
+
         $formattedCode = [
-            $this->buildDefinition() . '(' . $this->buildArguments($this->arguments, $this->argumentDefaults) . ')',
+            $this->buildDefinition() . '(' . $this->buildArguments($this->arguments, $this->argumentDefaults) . ')' . $returnType,
             '{'
         ];
 
