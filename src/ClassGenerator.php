@@ -5,6 +5,8 @@
  */
 namespace samsonframework\generator;
 
+use samsonframework\generator\exception\ClassNameNotFoundException;
+
 /**
  * Class generator class.
  *
@@ -50,7 +52,7 @@ class ClassGenerator extends AbstractGenerator
      * @param string           $className Class name
      * @param AbstractGenerator $parent    Parent generator
      */
-    public function __construct(string $className, AbstractGenerator $parent = null)
+    public function __construct(string $className = null, AbstractGenerator $parent = null)
     {
         $this->className = $className;
 
@@ -86,6 +88,20 @@ class ClassGenerator extends AbstractGenerator
     public function defNamespace(string $namespace) : ClassGenerator
     {
         $this->namespace = $namespace;
+
+        return $this;
+    }
+
+    /**
+     * Set class name.
+     *
+     * @param string $className
+     *
+     * @return ClassGenerator
+     */
+    public function defName(string $className) : ClassGenerator
+    {
+        $this->className = $className;
 
         return $this;
     }
@@ -378,9 +394,14 @@ class ClassGenerator extends AbstractGenerator
     /**
      * {@inheritdoc}
      * @throws \InvalidArgumentException
+     * @throws ClassNameNotFoundException
      */
     public function code(int $indentation = 0) : string
     {
+        if (!$this->className) {
+            throw new ClassNameNotFoundException('Class name should be defined');
+        }
+
         $formattedCode = $this->buildNamespaceCode();
         $formattedCode = $this->buildFileDescriptionCode($formattedCode);
         $formattedCode = $this->buildUsesCode($formattedCode);
