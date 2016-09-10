@@ -6,7 +6,7 @@
 namespace samsonframework\generator\exception;
 
 /**
- * Class AbstractFinalTrait
+ * Class ClassNameNotFoundException
  *
  * @author Vitaly Egorov <egorov@samsonos.com>
  */
