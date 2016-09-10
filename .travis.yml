@@ -8,10 +8,10 @@ before_script:
   - travis_retry composer install --prefer-dist --no-interaction
 
 script:
- - phpunit --verbose --debug --coverage-clover=coverage.clover
+ - phpunit --verbose --debug --coverage-clover=build/logs/coverage.xml
 
 after_script:
  - wget https://scrutinizer-ci.com/ocular.phar
- - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+ - php ocular.phar code-coverage:upload --format=php-clover build/logs/coverage.xml
 after_success:
  - travis_retry php vendor/bin/coveralls
