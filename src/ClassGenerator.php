@@ -438,4 +438,20 @@ class ClassGenerator extends AbstractGenerator
         ($this->parentClassName ? ' extends ' . $this->parentClassName : '') .
         (count($this->interfaces) ? rtrim(' implements ' . implode(', ', $this->interfaces), ', ') : '');
     }
+
+    /**
+     * @return string
+     */
+    public function getClassName(): string
+    {
+        return $this->className;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNamespace(): string
+    {
+        return $this->namespace;
+    }
 }
