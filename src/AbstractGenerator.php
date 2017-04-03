@@ -58,7 +58,7 @@ abstract class AbstractGenerator
     /**
      * Close current generator and return parent.
      *
-     * @return AbstractGenerator|ClassGenerator|FunctionGenerator|MethodGenerator|PropertyGenerator|ClassConstantGenerator
+     * @return AbstractGenerator|ClassGenerator|FunctionGenerator|MethodGenerator|PropertyGenerator|ClassConstantGenerator|ConditionGenerator|IfGenerator
      */
     public function end() : AbstractGenerator
     {

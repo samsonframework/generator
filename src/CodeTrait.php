@@ -16,6 +16,16 @@ trait CodeTrait
     protected $code = [];
 
     /**
+     * Define code condition block.
+     *
+     * @return ConditionGenerator Condition generator instance
+     */
+    public function defIf(): IfGenerator
+    {
+        return (new IfGenerator($this))->setIndentation($this->indentation)->increaseIndentation();
+    }
+
+    /**
      * Add function code line.
      *
      * @param string $code Code line
