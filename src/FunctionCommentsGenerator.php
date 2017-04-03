@@ -7,6 +7,7 @@ namespace samsonframework\generator;
 
 /**
  * Class FunctionCommentsGenerator
+ * @deprecated
  *
  * @author Vitaly Egorov <egorov@samsonos.com>
  */

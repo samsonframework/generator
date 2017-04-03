@@ -38,9 +38,7 @@ abstract class AbstractGenerator
      */
     public function increaseIndentation() : AbstractGenerator
     {
-        $this->indentation++;
-
-        return $this;
+        return $this->setIndentation($this->indentation + 1);
     }
 
     /**
@@ -50,9 +48,7 @@ abstract class AbstractGenerator
      */
     public function decreaseIndentation() : AbstractGenerator
     {
-        $this->indentation--;
-
-        return $this;
+        return $this->setIndentation($this->indentation - 1);
     }
 
     /**
@@ -62,14 +58,20 @@ abstract class AbstractGenerator
      */
     public function end() : AbstractGenerator
     {
-        // Create array item
-        $class = get_class($this);
-        if (!array_key_exists($class, $this->parent->generatedCode)) {
-            $this->parent->generatedCode[$class] = '';
-        }
+        // Generate code
+        $generatedCode = $this->code($this->indentation);
 
-        // Pass generated code to parent
-        $this->parent->generatedCode[$class] .= $this->code($this->indentation);
+        // Avoid creating empty strings
+        if ($generatedCode !== '') {
+            // Create array item
+            $class = get_class($this);
+            if (!array_key_exists($class, $this->parent->generatedCode)) {
+                $this->parent->generatedCode[$class] = '';
+            }
+
+            // Pass generated code to parent
+            $this->parent->generatedCode[$class] .= $generatedCode;
+        }
 
         return $this->parent;
     }
