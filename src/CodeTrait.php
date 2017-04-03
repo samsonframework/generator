@@ -18,7 +18,7 @@ trait CodeTrait
     /**
      * Define code condition block.
      *
-     * @return ConditionGenerator Condition generator instance
+     * @return IfGenerator Condition generator instance
      */
     public function defIf(): IfGenerator
     {
