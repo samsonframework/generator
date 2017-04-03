@@ -25,6 +25,7 @@ class IfGenerator extends AbstractGenerator
     {
         $conditionGenerator = (new ConditionGenerator(!$this->isFirstCondition, $this))
             ->setIndentation($this->indentation)
+            ->increaseIndentation()
             ->defDefinition($definition);
 
         // Change flag
@@ -38,23 +39,29 @@ class IfGenerator extends AbstractGenerator
      */
     public function code(int $indentation = 0): string
     {
-        // Close condition statement
-        $this->code[] = $this->indentation($indentation) . '}';
+        $code = '';
 
-        $code = implode("\n" . $this->indentation($indentation), $this->code);
+        // Add child if groups code
+        if (array_key_exists(self::class, $this->generatedCode)) {
+            $code .= $this->generatedCode[self::class];
+        }
 
         // Add conditions code
         if (array_key_exists(ConditionGenerator::class, $this->generatedCode)) {
-            $code = $this->generatedCode[ConditionGenerator::class] . "\n" . $code;
+            $code .= $this->generatedCode[ConditionGenerator::class];
         }
 
-        // Add comments
-        if (array_key_exists(FunctionCommentsGenerator::class, $this->generatedCode)) {
-            $code = $this->generatedCode[FunctionCommentsGenerator::class] . "\n" . $code;
+        // Close condition block
+        if ($code !== '') {
+            $code .= "\n".'}';
         }
 
-        // Pass code to parent to preserve order
-        $this->parent->defLine($code);
+        // Separate code in lines and add to parent code
+        if ($code !== '') {
+            foreach (explode("\n", $code) as $codeLine) {
+                $this->parent->defLine($codeLine);
+            }
+        }
 
         return $code;
     }

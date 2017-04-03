@@ -22,7 +22,7 @@ trait CodeTrait
      */
     public function defIf(): IfGenerator
     {
-        return (new IfGenerator($this))->setIndentation($this->indentation)->increaseIndentation();
+        return (new IfGenerator($this))->setIndentation($this->indentation);
     }
 
     /**

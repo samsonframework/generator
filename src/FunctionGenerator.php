@@ -94,6 +94,7 @@ class FunctionGenerator extends AbstractGenerator
         foreach ($this->code as $codeLine) {
             $formattedCode[] = $innerIndentation.$codeLine;
         }
+
         $formattedCode[] = '}';
 
         $code = implode("\n" . $this->indentation($indentation), $formattedCode);

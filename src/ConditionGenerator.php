@@ -60,14 +60,14 @@ class ConditionGenerator extends AbstractGenerator
         // Generate condition statement definition code
         if ($this->definition === '') {
             if ($this->nested) { // Empty definition means else statement
-                $formattedCode =  ["\n" . $this->indentation($indentation) .'} else {'];
+                $formattedCode =  ["\n".'} else {'];
             } else {
                 throw new \Exception('Cannot create not nested condition statement with empty definition');
             }
         } else { // Regular condition statement beginning
             $formattedCode = [
                 ($this->nested
-                    ? "\n" . $this->indentation($indentation) . '} elseif ('
+                    ? "\n".'} elseif ('
                     : 'if (') . $this->definition . ') {'
             ];
         }
@@ -77,6 +77,6 @@ class ConditionGenerator extends AbstractGenerator
             $formattedCode[] = $innerIndentation . $codeLine;
         }
 
-        return implode("\n" . $this->indentation($indentation), $formattedCode);
+        return implode("\n", $formattedCode);
     }
 }
