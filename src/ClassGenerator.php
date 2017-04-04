@@ -49,7 +49,7 @@ class ClassGenerator extends AbstractGenerator
     /**
      * ClassGenerator constructor.
      *
-     * @param string           $className Class name
+     * @param string            $className Class name
      * @param AbstractGenerator $parent    Parent generator
      */
     public function __construct(string $className = null, AbstractGenerator $parent = null)
@@ -66,7 +66,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return ClassGenerator
      */
-    public function defDescription(array $description) : ClassGenerator
+    public function defDescription(array $description): ClassGenerator
     {
         $commentsGenerator = new CommentsGenerator($this);
         foreach ($description as $line) {
@@ -85,7 +85,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return ClassGenerator
      */
-    public function defNamespace(string $namespace) : ClassGenerator
+    public function defNamespace(string $namespace): ClassGenerator
     {
         $this->namespace = $namespace;
 
@@ -99,7 +99,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return ClassGenerator
      */
-    public function defName(string $className) : ClassGenerator
+    public function defName(string $className): ClassGenerator
     {
         $this->className = $className;
 
@@ -109,12 +109,12 @@ class ClassGenerator extends AbstractGenerator
     /**
      * Set class use.
      *
-     * @param string $use Use class name
+     * @param string $use   Use class name
      * @param string $alias Use class name
      *
      * @return ClassGenerator
      */
-    public function defUse(string $use, string $alias = null) : ClassGenerator
+    public function defUse(string $use, string $alias = null): ClassGenerator
     {
         // Store the alias of class
         if ($alias) {
@@ -133,7 +133,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return ClassGenerator
      */
-    public function defExtends(string $className) : ClassGenerator
+    public function defExtends(string $className): ClassGenerator
     {
         $this->parentClassName = $className;
 
@@ -147,7 +147,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return ClassGenerator
      */
-    public function defImplements(string $interfaceName) : ClassGenerator
+    public function defImplements(string $interfaceName): ClassGenerator
     {
         $this->interfaces[] = $interfaceName;
 
@@ -161,7 +161,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return ClassGenerator
      */
-    public function defTrait(string $trait) : ClassGenerator
+    public function defTrait(string $trait): ClassGenerator
     {
         $this->traits[] = $trait;
 
@@ -178,7 +178,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return PropertyGenerator
      */
-    public function defProtectedProperty(string $name, string $type, $value, string $description = null) : PropertyGenerator
+    public function defProtectedProperty(string $name, string $type, $value, string $description = null): PropertyGenerator
     {
         return $this->defProperty($name, $type, $value, $description)->defProtected();
     }
@@ -193,7 +193,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return PropertyGenerator
      */
-    public function defProperty(string $name, string $type, $value = null, string $description = null) : PropertyGenerator
+    public function defProperty(string $name, string $type, $value = null, string $description = null): PropertyGenerator
     {
         return (new PropertyGenerator($name, $value, $this))
             ->setIndentation($this->indentation)
@@ -213,7 +213,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return PropertyGenerator
      */
-    public function defProtectedStaticProperty(string $name, string $type, $value, string $description = null) : PropertyGenerator
+    public function defProtectedStaticProperty(string $name, string $type, $value, string $description = null): PropertyGenerator
     {
         return $this->defStaticProperty($name, $type, $value, $description)->defProtected();
     }
@@ -228,7 +228,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return PropertyGenerator
      */
-    public function defStaticProperty(string $name, string $type, $value, string $description = null) : PropertyGenerator
+    public function defStaticProperty(string $name, string $type, $value, string $description = null): PropertyGenerator
     {
         return $this->defProperty($name, $type, $value, $description)->defStatic();
     }
@@ -240,7 +240,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return MethodGenerator
      */
-    public function defProtectedMethod(string $name) : MethodGenerator
+    public function defProtectedMethod(string $name): MethodGenerator
     {
         return $this->defMethod($name)->defProtected();
     }
@@ -252,7 +252,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return MethodGenerator
      */
-    public function defMethod(string $name) : MethodGenerator
+    public function defMethod(string $name): MethodGenerator
     {
         return (new MethodGenerator($name, $this))->setIndentation($this->indentation)->increaseIndentation();
     }
@@ -264,7 +264,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return MethodGenerator
      */
-    public function defProtectedStaticMethod(string $name) : MethodGenerator
+    public function defProtectedStaticMethod(string $name): MethodGenerator
     {
         return $this->defStaticMethod($name)->defProtected();
     }
@@ -276,7 +276,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return MethodGenerator
      */
-    public function defStaticMethod(string $name) : MethodGenerator
+    public function defStaticMethod(string $name): MethodGenerator
     {
         return $this->defMethod($name)->defStatic();
     }
@@ -285,17 +285,17 @@ class ClassGenerator extends AbstractGenerator
      * Set class constant.
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return $this|ClassConstantGenerator
      */
-    public function defConstant(string $name, $value, string $type, string $description) : ClassConstantGenerator
+    public function defConstant(string $name, $value, string $type, string $description): ClassConstantGenerator
     {
         return (new ClassConstantGenerator($name, $value, $this))
             ->setIndentation($this->indentation)
             ->increaseIndentation()
             ->defComment()
-                ->defLine($type.' '.$description)
+            ->defLine($type . ' ' . $description)
             ->end();
     }
 
@@ -357,7 +357,7 @@ class ClassGenerator extends AbstractGenerator
         return $formattedCode;
     }
 
-    protected function buildUsesCode(array $formattedCode) : array
+    protected function buildUsesCode(array $formattedCode): array
     {
         // Add uses
         foreach ($this->uses as $alias => $use) {
@@ -395,7 +395,7 @@ class ClassGenerator extends AbstractGenerator
      *
      * @return array Collection of code with trait uses
      */
-    protected function buildTraitsCode(array $formattedCode, string $innerIndentation) : array
+    protected function buildTraitsCode(array $formattedCode, string $innerIndentation): array
     {
         // Add traits
         foreach ($this->traits as $trait) {
