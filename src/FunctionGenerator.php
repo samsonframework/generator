@@ -108,13 +108,19 @@ class FunctionGenerator extends AbstractGenerator
     /**
      * Set return value type
      *
-     * @param string|null $type Return type hint
+     * @param string|null $type        Return type hint
+     *
+     * @param string      $description Return type description
      *
      * @return FunctionGenerator
      */
-    public function defReturnType(string $type): FunctionGenerator
+    public function defReturnType(string $type, string $description = ''): FunctionGenerator
     {
-        $this->returnType = $type;
+        // Add comment return type
+        $this->commentGenerator->defReturn($type, $description);
+
+        // Set method definition return type, mixed return types are not supported yet
+        $this->returnType = strpos($type, '|') !== false ? '' : $type;
 
         return $this;
     }

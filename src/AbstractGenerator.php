@@ -21,6 +21,9 @@ abstract class AbstractGenerator
     /** @var int Indentation level */
     protected $indentation = 0;
 
+    /** @var bool Flag that class has already had generated its code */
+    protected $isGenerated = false;
+
     /**
      * AbstractGenerator constructor.
      *
@@ -42,7 +45,7 @@ abstract class AbstractGenerator
         $generatedCode = $this->code();
 
         // Avoid creating empty strings
-        if ($generatedCode !== '') {
+        if (!$this->isGenerated && $generatedCode !== '') {
             // Create array item
             $class = get_class($this);
             if (!array_key_exists($class, $this->parent->generatedCode)) {
@@ -51,6 +54,9 @@ abstract class AbstractGenerator
 
             // Pass generated code to parent
             $this->parent->generatedCode[$class][] = $generatedCode;
+
+            // Set flag that we already generated code for this class
+            $this->isGenerated = true;
         }
 
         return $this->parent;
