@@ -286,6 +286,8 @@ class ClassGenerator extends AbstractGenerator
      *
      * @param string $name
      * @param mixed  $value
+     * @param string $type
+     * @param string $description
      *
      * @return $this|ClassConstantGenerator
      */
