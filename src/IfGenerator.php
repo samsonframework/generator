@@ -3,7 +3,6 @@
  * Created by Vitaly Iegorov <egorov@samsonos.com>.
  * on 03.04.17 at 08:57
  */
-
 namespace samsonframework\generator;
 
 /**
@@ -53,7 +52,7 @@ class IfGenerator extends AbstractGenerator
 
         // Close condition block
         if ($code !== '') {
-            $code .= "\n".'}';
+            $code .= "\n" . '}';
         }
 
         // Separate code in lines and add to parent code

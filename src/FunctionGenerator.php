@@ -42,7 +42,7 @@ class FunctionGenerator extends AbstractGenerator
     {
         $this->name = $name;
 
-        $this->commentGenerator = (new FunctionCommentsGenerator($this->arguments, $this->argumentDescriptions, $this))
+        $this->commentGenerator = (new CommentsGenerator($this))
             ->setIndentation($this->indentation);
 
         parent::__construct($parent);
@@ -51,14 +51,19 @@ class FunctionGenerator extends AbstractGenerator
     /**
      * Set function argument.
      *
-     * @param string      $name        Argument name
-     * @param string|null $type        Argument type
-     * @param string      $description Argument description
-     * @param mixed      $defaultValue Argument default value
+     * @param string      $name         Argument name
+     * @param string|null $type         Argument type
+     * @param string      $description  Argument description
+     * @param mixed       $defaultValue Argument default value
      *
      * @return FunctionGenerator
      */
-    public function defArgument(string $name, string $type = null, string $description = null, $defaultValue = null) : FunctionGenerator
+    public function defArgument(
+        string $name,
+        string $type = null,
+        string $description = null,
+        $defaultValue = null
+    ): FunctionGenerator
     {
         $this->arguments[$name] = $type;
         $this->argumentDescriptions[$name] = $description;
@@ -107,7 +112,7 @@ class FunctionGenerator extends AbstractGenerator
      *
      * @return FunctionGenerator
      */
-    public function defReturnType(string $type) : FunctionGenerator
+    public function defReturnType(string $type): FunctionGenerator
     {
         $this->returnType = $type;
 
@@ -117,7 +122,7 @@ class FunctionGenerator extends AbstractGenerator
     /**
      * {@inheritdoc}
      */
-    public function code(int $indentation = 0) : string
+    public function code(int $indentation = 0): string
     {
         $innerIndentation = $this->indentation(1);
 
@@ -125,13 +130,16 @@ class FunctionGenerator extends AbstractGenerator
         $returnType = $this->returnType ? ' : ' . $this->returnType : '';
 
         $formattedCode = [
-            $this->buildDefinition() . '(' . $this->buildArguments($this->arguments, $this->argumentDefaults) . ')' . $returnType,
+            $this->buildDefinition()
+            . '('
+            . $this->buildArguments($this->arguments, $this->argumentDefaults) . ')'
+            . $returnType,
             '{'
         ];
 
         // Prepend inner indentation to code
         foreach ($this->code as $codeLine) {
-            $formattedCode[] = $innerIndentation.$codeLine;
+            $formattedCode[] = $innerIndentation . $codeLine;
         }
 
         $formattedCode[] = '}';
@@ -139,8 +147,8 @@ class FunctionGenerator extends AbstractGenerator
         $code = implode("\n" . $this->indentation($indentation), $formattedCode);
 
         // Add comments
-        if (array_key_exists(FunctionCommentsGenerator::class, $this->generatedCode)) {
-            $code = $this->generatedCode[FunctionCommentsGenerator::class] . "\n" . $code;
+        if (array_key_exists(CommentsGenerator::class, $this->generatedCode)) {
+            $code = $this->generatedCode[CommentsGenerator::class] . "\n" . $code;
         }
 
         return $code;
@@ -159,7 +167,7 @@ class FunctionGenerator extends AbstractGenerator
     /**
      * {@inheritdoc}
      */
-    public function defComment() : CommentsGenerator
+    public function defComment(): CommentsGenerator
     {
         return $this->commentGenerator;
     }
