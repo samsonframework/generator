@@ -107,7 +107,7 @@ class CommentsGenerator extends AbstractGenerator
 
         // Prepend inner indentation to code
         foreach ($this->code as $codeLine) {
-            $formattedCode[] = ' * ' . $codeLine;
+            $formattedCode[] = $codeLine !== '' ? ' * ' . $codeLine : ' *';
         }
 
         $formattedCode[] = ' */';
