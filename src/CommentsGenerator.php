@@ -22,7 +22,7 @@ class CommentsGenerator extends AbstractGenerator
      *
      * @return CommentsGenerator
      */
-    public function defVar(string $type, string $description = null) : CommentsGenerator
+    public function defVar(string $type, string $description = null): CommentsGenerator
     {
         return $this->defLine('@var ' . $type . ($description !== null ? ' ' . $description : ''));
     }
@@ -36,7 +36,7 @@ class CommentsGenerator extends AbstractGenerator
      *
      * @return CommentsGenerator
      */
-    public function defParam(string $name, string $type, string $description = null) : CommentsGenerator
+    public function defParam(string $name, string $type, string $description = null): CommentsGenerator
     {
         return $this->defLine('@param ' . $type . ' $' . $name . ($description !== null ? ' ' . $description : ''));
     }
@@ -49,7 +49,7 @@ class CommentsGenerator extends AbstractGenerator
      *
      * @return CommentsGenerator
      */
-    public function defReturn(string $type, string $description = null) : CommentsGenerator
+    public function defReturn(string $type, string $description = null): CommentsGenerator
     {
         return $this->defLine('@return ' . $type . ($description !== null ? ' ' . $description : ''));
     }
@@ -65,7 +65,7 @@ class CommentsGenerator extends AbstractGenerator
      * @internal param null|string $description Argument description
      *
      */
-    public function defMethod(string $name, string $returnType, array $arguments = []) : CommentsGenerator
+    public function defMethod(string $name, string $returnType, array $arguments = []): CommentsGenerator
     {
         return $this->defLine('@method ' . $returnType . ' ' . $name . '(' . $this->buildArguments($arguments) . ')');
     }
@@ -73,7 +73,7 @@ class CommentsGenerator extends AbstractGenerator
     /**
      * {@inheritdoc}
      */
-    public function code(int $indentation = 0) : string
+    public function code(int $indentation = 0): string
     {
         $indentationString = $this->indentation($this->indentation);
 
@@ -91,7 +91,7 @@ class CommentsGenerator extends AbstractGenerator
      */
     protected function formatSingleLine(string $indentation)
     {
-        return $indentation.'/** '.$this->code[0].' */';
+        return $indentation . '/** ' . $this->code[0] . ' */';
     }
 
     /**
