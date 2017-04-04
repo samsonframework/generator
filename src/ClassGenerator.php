@@ -431,14 +431,4 @@ class ClassGenerator extends AbstractGenerator
     {
         return $this->namespace;
     }
-
-    protected function buildCommentsCode(array $formattedCode): array
-    {
-        // Add comments
-        if (array_key_exists(CommentsGenerator::class, $this->generatedCode)) {
-            $formattedCode[] = $this->generatedCode[CommentsGenerator::class];
-        }
-
-        return $formattedCode;
-    }
 }
