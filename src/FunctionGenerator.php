@@ -29,7 +29,7 @@ class FunctionGenerator extends AbstractGenerator
     /** @var string Return type hint */
     protected $returnType;
 
-    /** @var FunctionCommentsGenerator */
+    /** @var CommentsGenerator */
     protected $commentGenerator;
 
     /**
