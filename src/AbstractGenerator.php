@@ -46,11 +46,11 @@ abstract class AbstractGenerator
             // Create array item
             $class = get_class($this);
             if (!array_key_exists($class, $this->parent->generatedCode)) {
-                $this->parent->generatedCode[$class] = '';
+                $this->parent->generatedCode[$class] = [];
             }
 
             // Pass generated code to parent
-            $this->parent->generatedCode[$class] .= $generatedCode;
+            $this->parent->generatedCode[$class][] = $generatedCode;
         }
 
         return $this->parent;
@@ -115,7 +115,7 @@ abstract class AbstractGenerator
     protected function getNestedCode(string $className): string
     {
         if (array_key_exists($className, $this->generatedCode)) {
-            return $this->generatedCode[$className];
+            return ltrim(implode("", $this->generatedCode[$className]), "\n");
         } else {
             return '';
         }

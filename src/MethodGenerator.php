@@ -47,8 +47,7 @@ class MethodGenerator extends FunctionGenerator
      */
     protected function buildDefinition()
     {
-        return $this->indentation($this->indentation) .
-        ($this->isFinal ? 'final ' : '') .
+        return ($this->isFinal ? 'final ' : '') .
         ($this->isAbstract ? 'abstract ' : '') .
         $this->visibility . ' ' .
         ($this->isStatic ? 'static ' : '') .

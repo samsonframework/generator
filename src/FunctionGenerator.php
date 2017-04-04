@@ -124,28 +124,22 @@ class FunctionGenerator extends AbstractGenerator
      */
     public function code(): string
     {
-        $innerIndentation = $this->indentation(1);
-
-        // Get return type code
-        $returnType = $this->returnType ? ' : ' . $this->returnType : '';
-
-        $formattedCode = [
-            $this->getNestedCode(CommentsGenerator::class) . "\n"
-            . $this->buildDefinition()
-            . '('
-            . $this->buildArguments($this->arguments, $this->argumentDefaults) . ')'
-            . $returnType,
-            '{'
-        ];
+        $formattedCode[] =
+            $this->indentation($this->indentation) . $this->buildDefinition()
+            . '(' . $this->buildArguments($this->arguments, $this->argumentDefaults) . ')'
+            . ($this->returnType ? ' : ' . $this->returnType : '');
 
         // Prepend inner indentation to code
+        $innerIndentation = $this->indentation(1);
+        $formattedCode[] = '{';
         foreach ($this->code as $codeLine) {
             $formattedCode[] = $innerIndentation . $codeLine;
         }
-
         $formattedCode[] = '}';
 
-        return implode("\n" . $this->indentation($this->indentation), $formattedCode);
+        $comments = $this->getNestedCode(CommentsGenerator::class);
+
+        return "\n\n" . ($comments !== '' ? $comments . "\n" : '') . implode("\n" . $this->indentation($this->indentation), $formattedCode);
     }
 
     /**

@@ -38,17 +38,10 @@ class IfGenerator extends AbstractGenerator
      */
     public function code(): string
     {
-        $code = '';
-
         // Add child if groups code
-        if (array_key_exists(self::class, $this->generatedCode)) {
-            $code .= $this->generatedCode[self::class];
-        }
-
+        $code = $this->getNestedCode(self::class);
         // Add conditions code
-        if (array_key_exists(ConditionGenerator::class, $this->generatedCode)) {
-            $code .= $this->generatedCode[ConditionGenerator::class];
-        }
+        $code .= $this->getNestedCode(ConditionGenerator::class);
 
         // Close condition block
         if ($code !== '') {
