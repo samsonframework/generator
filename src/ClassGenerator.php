@@ -313,7 +313,7 @@ class ClassGenerator extends AbstractGenerator
         $formattedCode = $this->buildNamespaceCode();
         $formattedCode = $this->buildFileDescriptionCode($formattedCode);
         $formattedCode = $this->buildUsesCode($formattedCode);
-        $formattedCode = $this->buildCommentsCode($formattedCode);
+        $formattedCode = $this->buildNestedCode($formattedCode, CommentsGenerator::class);
 
         // Add previously generated code
         $formattedCode[] = $this->buildDefinition();
@@ -323,9 +323,9 @@ class ClassGenerator extends AbstractGenerator
         $innerIndentation = $this->indentation(1);
 
         $formattedCode = $this->buildTraitsCode($formattedCode, $innerIndentation);
-        $formattedCode = $this->buildConstantsCode($formattedCode);
-        $formattedCode = $this->buildPropertiesCode($formattedCode);
-        $formattedCode = $this->buildMethodsCode($formattedCode);
+        $formattedCode = $this->buildNestedCode($formattedCode, ClassConstantGenerator::class);
+        $formattedCode = $this->buildNestedCode($formattedCode, PropertyGenerator::class);
+        $formattedCode = $this->buildNestedCode($formattedCode, MethodGenerator::class);
 
         $formattedCode[] = '}';
 
@@ -371,11 +371,18 @@ class ClassGenerator extends AbstractGenerator
         return $formattedCode;
     }
 
-    protected function buildCommentsCode(array $formattedCode) : array
+    /**
+     * Build nested class code array.
+     *
+     * @param array  $formattedCode Collection of code
+     * @param string $className     Nested class name
+     *
+     * @return array Collection of code with added nested class code
+     */
+    protected function buildNestedCode(array $formattedCode, string $className): array
     {
-        // Add comments
-        if (array_key_exists(CommentsGenerator::class, $this->generatedCode)) {
-            $formattedCode[] = $this->generatedCode[CommentsGenerator::class];
+        if (array_key_exists($className, $this->generatedCode)) {
+            $formattedCode[] = $this->generatedCode[$className];
         }
 
         return $formattedCode;
@@ -396,6 +403,14 @@ class ClassGenerator extends AbstractGenerator
             (count($this->interfaces) ? rtrim(' implements ' . implode(', ', $this->interfaces), ', ') : '');
     }
 
+    /**
+     * Build traits definition code.
+     *
+     * @param array  $formattedCode    Collection of code
+     * @param string $innerIndentation Inner indentation
+     *
+     * @return array Collection of code with trait uses
+     */
     protected function buildTraitsCode(array $formattedCode, string $innerIndentation) : array
     {
         // Add traits
@@ -411,36 +426,10 @@ class ClassGenerator extends AbstractGenerator
         return $formattedCode;
     }
 
-    protected function buildConstantsCode(array $formattedCode) : array
-    {
-        // Add constants
-        if (array_key_exists(ClassConstantGenerator::class, $this->generatedCode)) {
-            $formattedCode[] = $this->generatedCode[ClassConstantGenerator::class];
-        }
-
-        return $formattedCode;
-    }
-
-    protected function buildPropertiesCode(array $formattedCode) : array
-    {
-        if (array_key_exists(PropertyGenerator::class, $this->generatedCode)) {
-            $formattedCode[] = $this->generatedCode[PropertyGenerator::class];
-        }
-
-        return $formattedCode;
-    }
-
-    protected function buildMethodsCode(array $formattedCode) : array
-    {
-        if (array_key_exists(MethodGenerator::class, $this->generatedCode)) {
-            $formattedCode[] = $this->generatedCode[MethodGenerator::class];
-        }
-
-        return $formattedCode;
-    }
-
     /**
-     * @return string
+     * Get generated class name.
+     *
+     * @return string Generated class name
      */
     public function getClassName(): string
     {
@@ -448,10 +437,22 @@ class ClassGenerator extends AbstractGenerator
     }
 
     /**
-     * @return string
+     * Get generated class namespace.
+     *
+     * @return string Generated class namespace
      */
     public function getNamespace(): string
     {
         return $this->namespace;
+    }
+
+    protected function buildCommentsCode(array $formattedCode): array
+    {
+        // Add comments
+        if (array_key_exists(CommentsGenerator::class, $this->generatedCode)) {
+            $formattedCode[] = $this->generatedCode[CommentsGenerator::class];
+        }
+
+        return $formattedCode;
     }
 }
