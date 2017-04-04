@@ -327,7 +327,8 @@ class ClassGenerator extends AbstractGenerator
         $formattedCode = $this->buildNestedCode(PropertyGenerator::class, $formattedCode);
         $formattedCode = $this->buildNestedCode(MethodGenerator::class, $formattedCode);
 
-        $formattedCode[] = '}';
+        // Close class and add one empty line
+        $formattedCode[] = '}' . "\n";
 
         return implode("\n" . $indentationString, $formattedCode);
     }
