@@ -32,26 +32,6 @@ abstract class AbstractGenerator
     }
 
     /**
-     * Increase indentation.
-     *
-     * @return $this|AbstractGenerator
-     */
-    public function increaseIndentation() : AbstractGenerator
-    {
-        return $this->setIndentation($this->indentation + 1);
-    }
-
-    /**
-     * Decrease indentation.
-     *
-     * @return $this|AbstractGenerator
-     */
-    public function decreaseIndentation() : AbstractGenerator
-    {
-        return $this->setIndentation($this->indentation - 1);
-    }
-
-    /**
      * Close current generator and return parent.
      *
      * @return AbstractGenerator|ClassGenerator|FunctionGenerator|MethodGenerator|PropertyGenerator|ClassConstantGenerator|ConditionGenerator|IfGenerator
@@ -59,7 +39,7 @@ abstract class AbstractGenerator
     public function end() : AbstractGenerator
     {
         // Generate code
-        $generatedCode = $this->code($this->indentation);
+        $generatedCode = $this->code();
 
         // Avoid creating empty strings
         if ($generatedCode !== '') {
@@ -79,11 +59,9 @@ abstract class AbstractGenerator
     /**
      * Generate code.
      *
-     * @param int $indentation Code level
-     *
      * @return string Generated code
      */
-    abstract public function code(int $indentation = 0) : string;
+    abstract public function code(): string;
 
     /**
      * Set Comments block.
@@ -102,23 +80,11 @@ abstract class AbstractGenerator
      *
      * @return $this|AbstractGenerator|ClassGenerator
      */
-    public function setIndentation(int $indentation) : AbstractGenerator
+    public function setIndentation(int $indentation): AbstractGenerator
     {
         $this->indentation = $indentation;
 
         return $this;
-    }
-
-    /**
-     * Get indentation string.
-     *
-     * @param int $indentation Code level
-     *
-     * @return string Indentation string
-     */
-    protected function indentation(int $indentation = 0) : string
-    {
-        return implode('', $indentation > 0 ? array_fill(0, $indentation, '    ') : []);
     }
 
     /**
@@ -178,5 +144,37 @@ abstract class AbstractGenerator
         $result[] = "\n".$this->indentation($this->indentation).']';
 
         return implode('', $result);
+    }
+
+    /**
+     * Increase indentation.
+     *
+     * @return $this|AbstractGenerator
+     */
+    public function increaseIndentation(): AbstractGenerator
+    {
+        return $this->setIndentation($this->indentation + 1);
+    }
+
+    /**
+     * Get indentation string.
+     *
+     * @param int $indentation Code level
+     *
+     * @return string Indentation string
+     */
+    protected function indentation(int $indentation = 0): string
+    {
+        return implode('', $indentation > 0 ? array_fill(0, $indentation, '    ') : []);
+    }
+
+    /**
+     * Decrease indentation.
+     *
+     * @return $this|AbstractGenerator
+     */
+    public function decreaseIndentation(): AbstractGenerator
+    {
+        return $this->setIndentation($this->indentation - 1);
     }
 }

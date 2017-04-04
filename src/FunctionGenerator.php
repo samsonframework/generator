@@ -122,7 +122,7 @@ class FunctionGenerator extends AbstractGenerator
     /**
      * {@inheritdoc}
      */
-    public function code(int $indentation = 0): string
+    public function code(): string
     {
         $innerIndentation = $this->indentation(1);
 
@@ -144,7 +144,7 @@ class FunctionGenerator extends AbstractGenerator
 
         $formattedCode[] = '}';
 
-        $code = implode("\n" . $this->indentation($indentation), $formattedCode);
+        $code = implode("\n" . $this->indentation($this->indentation), $formattedCode);
 
         // Add comments
         if (array_key_exists(CommentsGenerator::class, $this->generatedCode)) {

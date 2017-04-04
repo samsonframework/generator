@@ -13,13 +13,9 @@ namespace samsonframework\generator;
 class ClassConstantGenerator extends PropertyGenerator
 {
     /**
-     * Generate code.
-     *
-     * @param int $indentation Code level
-     *
-     * @return string Generated code
+     * @inheritdoc
      */
-    public function code(int $indentation = 0) : string
+    public function code(): string
     {
         $code = $this->indentation($this->indentation)
             . 'const '

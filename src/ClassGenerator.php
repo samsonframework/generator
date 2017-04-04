@@ -299,6 +299,63 @@ class ClassGenerator extends AbstractGenerator
             ->end();
     }
 
+    /**
+     * @inheritdoc
+     * @throws \InvalidArgumentException
+     * @throws ClassNameNotFoundException
+     */
+    public function code(): string
+    {
+        if (!$this->className) {
+            throw new ClassNameNotFoundException('Class name should be defined');
+        }
+
+        $formattedCode = $this->buildNamespaceCode();
+        $formattedCode = $this->buildFileDescriptionCode($formattedCode);
+        $formattedCode = $this->buildUsesCode($formattedCode);
+        $formattedCode = $this->buildCommentsCode($formattedCode);
+
+        // Add previously generated code
+        $formattedCode[] = $this->buildDefinition();
+        $formattedCode[] = '{';
+
+        $indentationString = $this->indentation($this->indentation);
+        $innerIndentation = $this->indentation(1);
+
+        $formattedCode = $this->buildTraitsCode($formattedCode, $innerIndentation);
+        $formattedCode = $this->buildConstantsCode($formattedCode);
+        $formattedCode = $this->buildPropertiesCode($formattedCode);
+        $formattedCode = $this->buildMethodsCode($formattedCode);
+
+        $formattedCode[] = '}';
+
+        return implode("\n" . $indentationString, $formattedCode);
+    }
+
+    protected function buildNamespaceCode(array $formattedCode = []): array
+    {
+        if ($this->namespace === null) {
+            throw new \InvalidArgumentException('Class namespace should be defined');
+        }
+
+        $formattedCode[] = 'namespace ' . $this->namespace . ';';
+
+        // One empty line after namespace
+        $formattedCode[] = '';
+
+        return $formattedCode;
+    }
+
+    protected function buildFileDescriptionCode(array $formattedCode): array
+    {
+        // Prepend file description if present
+        if ($this->fileDescription !== null) {
+            array_unshift($formattedCode, $this->fileDescription);
+        }
+
+        return $formattedCode;
+    }
+
     protected function buildUsesCode(array $formattedCode) : array
     {
         // Add uses
@@ -324,6 +381,21 @@ class ClassGenerator extends AbstractGenerator
         return $formattedCode;
     }
 
+    /**
+     * Build class definition.
+     *
+     * @return string Function definition
+     */
+    protected function buildDefinition()
+    {
+        return ($this->isFinal ? 'final ' : '') .
+            ($this->isAbstract ? 'abstract ' : '') .
+            'class ' .
+            $this->className .
+            ($this->parentClassName ? ' extends ' . $this->parentClassName : '') .
+            (count($this->interfaces) ? rtrim(' implements ' . implode(', ', $this->interfaces), ', ') : '');
+    }
+
     protected function buildTraitsCode(array $formattedCode, string $innerIndentation) : array
     {
         // Add traits
@@ -334,16 +406,6 @@ class ClassGenerator extends AbstractGenerator
         // One empty line after traits if we have them
         if (count($this->traits)) {
             $formattedCode[] = '';
-        }
-
-        return $formattedCode;
-    }
-
-    protected function buildFileDescriptionCode(array $formattedCode) : array
-    {
-        // Prepend file description if present
-        if ($this->fileDescription !== null) {
-            array_unshift($formattedCode, $this->fileDescription);
         }
 
         return $formattedCode;
@@ -375,68 +437,6 @@ class ClassGenerator extends AbstractGenerator
         }
 
         return $formattedCode;
-    }
-
-    protected function buildNamespaceCode(array $formattedCode = []) : array
-    {
-        if ($this->namespace === null) {
-            throw new \InvalidArgumentException('Class namespace should be defined');
-        }
-
-        $formattedCode[] = 'namespace ' . $this->namespace . ';';
-
-        // One empty line after namespace
-        $formattedCode[] = '';
-
-        return $formattedCode;
-    }
-
-    /**
-     * {@inheritdoc}
-     * @throws \InvalidArgumentException
-     * @throws ClassNameNotFoundException
-     */
-    public function code(int $indentation = 0) : string
-    {
-        if (!$this->className) {
-            throw new ClassNameNotFoundException('Class name should be defined');
-        }
-
-        $formattedCode = $this->buildNamespaceCode();
-        $formattedCode = $this->buildFileDescriptionCode($formattedCode);
-        $formattedCode = $this->buildUsesCode($formattedCode);
-        $formattedCode = $this->buildCommentsCode($formattedCode);
-
-        // Add previously generated code
-        $formattedCode[] = $this->buildDefinition();
-        $formattedCode[] = '{';
-
-        $indentationString = $this->indentation($indentation);
-        $innerIndentation = $this->indentation(1);
-
-        $formattedCode = $this->buildTraitsCode($formattedCode, $innerIndentation);
-        $formattedCode = $this->buildConstantsCode($formattedCode);
-        $formattedCode = $this->buildPropertiesCode($formattedCode);
-        $formattedCode = $this->buildMethodsCode($formattedCode);
-
-        $formattedCode[] = '}';
-
-        return implode("\n" . $indentationString, $formattedCode);
-    }
-
-    /**
-     * Build class definition.
-     *
-     * @return string Function definition
-     */
-    protected function buildDefinition()
-    {
-        return ($this->isFinal ? 'final ' : '') .
-        ($this->isAbstract ? 'abstract ' : '') .
-        'class ' .
-        $this->className .
-        ($this->parentClassName ? ' extends ' . $this->parentClassName : '') .
-        (count($this->interfaces) ? rtrim(' implements ' . implode(', ', $this->interfaces), ', ') : '');
     }
 
     /**

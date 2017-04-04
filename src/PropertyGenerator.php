@@ -51,9 +51,9 @@ class PropertyGenerator extends AbstractGenerator
     /**
      * {@inheritdoc}
      */
-    public function code(int $indentation = 0) : string
+    public function code(): string
     {
-        $code = $this->indentation($indentation)
+        $code = $this->indentation($this->indentation)
             . $this->visibility
             . ' '
             . ($this->isStatic ? 'static ' : '')

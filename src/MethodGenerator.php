@@ -31,12 +31,12 @@ class MethodGenerator extends FunctionGenerator
     /**
      * {@inheritdoc}
      */
-    public function code(int $indentation = 0) : string
+    public function code(): string
     {
         if ($this->isAbstract === true) {
             return $this->buildDefinition() . '(' . $this->buildArguments($this->arguments) . ');';
         } else {
-            return parent::code($indentation);
+            return parent::code();
         }
     }
 

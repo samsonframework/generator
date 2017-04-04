@@ -53,7 +53,7 @@ class ConditionGenerator extends AbstractGenerator
      *
      * @throws \Exception If condition is not nested and definition is not defined
      */
-    public function code(int $indentation = 0): string
+    public function code(): string
     {
         $innerIndentation = $this->indentation(1);
 

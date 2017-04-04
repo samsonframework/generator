@@ -36,7 +36,7 @@ class IfGenerator extends AbstractGenerator
     /**
      * @inheritdoc
      */
-    public function code(int $indentation = 0): string
+    public function code(): string
     {
         $code = '';
 
