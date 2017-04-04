@@ -143,6 +143,10 @@ class FunctionGenerator extends AbstractGenerator
         }
         $formattedCode[] = '}';
 
+        // Generate function comments
+        $this->commentGenerator->end();
+
+        // Get function comments code
         $comments = $this->getNestedCode(CommentsGenerator::class);
 
         return "\n\n" . ($comments !== '' ? $comments . "\n" : '') . implode("\n" . $this->indentation($this->indentation), $formattedCode);
