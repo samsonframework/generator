@@ -372,23 +372,6 @@ class ClassGenerator extends AbstractGenerator
     }
 
     /**
-     * Build nested class code array.
-     *
-     * @param array  $formattedCode Collection of code
-     * @param string $className     Nested class name
-     *
-     * @return array Collection of code with added nested class code
-     */
-    protected function buildNestedCode(array $formattedCode, string $className): array
-    {
-        if (array_key_exists($className, $this->generatedCode)) {
-            $formattedCode[] = $this->generatedCode[$className];
-        }
-
-        return $formattedCode;
-    }
-
-    /**
      * Build class definition.
      *
      * @return string Function definition
