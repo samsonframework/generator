@@ -79,7 +79,7 @@ class CommentsGenerator extends AbstractGenerator
 
         return count($this->code) === 1
             ? $this->formatSingleLine($indentationString)
-            : (count($this->code) ? $this->formatMultiLine($indentationString) : '');
+            : $this->formatMultiLine($indentationString);
     }
 
     /**
