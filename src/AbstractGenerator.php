@@ -90,18 +90,35 @@ abstract class AbstractGenerator
     /**
      * Build nested class code array.
      *
-     * @param array  $formattedCode Collection of code
      * @param string $className     Nested class name
+     * @param array  $formattedCode Collection of code
      *
      * @return array Collection of code with added nested class code
      */
-    protected function buildNestedCode(array $formattedCode, string $className): array
+    protected function buildNestedCode(string $className, array $formattedCode = []): array
     {
-        if (array_key_exists($className, $this->generatedCode)) {
-            $formattedCode[] = $this->generatedCode[$className];
+        $code = $this->getNestedCode($className);
+        if ($code !== '') {
+            $formattedCode[] = $code;
         }
 
         return $formattedCode;
+    }
+
+    /**
+     * Get generated nested code.
+     *
+     * @param string $className Nested class name
+     *
+     * @return string Generated nested code or empty string
+     */
+    protected function getNestedCode(string $className): string
+    {
+        if (array_key_exists($className, $this->generatedCode)) {
+            return $this->generatedCode[$className];
+        } else {
+            return '';
+        }
     }
 
     /**

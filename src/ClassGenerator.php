@@ -313,7 +313,7 @@ class ClassGenerator extends AbstractGenerator
         $formattedCode = $this->buildNamespaceCode();
         $formattedCode = $this->buildFileDescriptionCode($formattedCode);
         $formattedCode = $this->buildUsesCode($formattedCode);
-        $formattedCode = $this->buildNestedCode($formattedCode, CommentsGenerator::class);
+        $formattedCode = $this->buildNestedCode(CommentsGenerator::class, $formattedCode);
 
         // Add previously generated code
         $formattedCode[] = $this->buildDefinition();
@@ -323,9 +323,9 @@ class ClassGenerator extends AbstractGenerator
         $innerIndentation = $this->indentation(1);
 
         $formattedCode = $this->buildTraitsCode($formattedCode, $innerIndentation);
-        $formattedCode = $this->buildNestedCode($formattedCode, ClassConstantGenerator::class);
-        $formattedCode = $this->buildNestedCode($formattedCode, PropertyGenerator::class);
-        $formattedCode = $this->buildNestedCode($formattedCode, MethodGenerator::class);
+        $formattedCode = $this->buildNestedCode(ClassConstantGenerator::class, $formattedCode);
+        $formattedCode = $this->buildNestedCode(PropertyGenerator::class, $formattedCode);
+        $formattedCode = $this->buildNestedCode(MethodGenerator::class, $formattedCode);
 
         $formattedCode[] = '}';
 

@@ -130,7 +130,8 @@ class FunctionGenerator extends AbstractGenerator
         $returnType = $this->returnType ? ' : ' . $this->returnType : '';
 
         $formattedCode = [
-            $this->buildDefinition()
+            $this->getNestedCode(CommentsGenerator::class) . "\n"
+            . $this->buildDefinition()
             . '('
             . $this->buildArguments($this->arguments, $this->argumentDefaults) . ')'
             . $returnType,
@@ -145,11 +146,6 @@ class FunctionGenerator extends AbstractGenerator
         $formattedCode[] = '}';
 
         $code = implode("\n" . $this->indentation($this->indentation), $formattedCode);
-
-        // Add comments
-        if (array_key_exists(CommentsGenerator::class, $this->generatedCode)) {
-            $code = $this->generatedCode[CommentsGenerator::class] . "\n" . $code;
-        }
 
         return $code;
     }
